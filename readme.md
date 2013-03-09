@@ -56,7 +56,7 @@ This indicates the current temperature in Fahrenheit, such as "80". You may want
 If you'd prefer to use Celsius, you could change `temp_f` to `temp_c` in weather.php on approximately line 111.
 
 #### `$weather_imgCode;`
-This script outputs a weather image code. It does not include weather images. The images NOAA uses (which have corresponding file names)[are located here on their website](http://w1.weather.gov/xml/current_obs/weather.php).
+This script outputs a weather image code. It does not include weather images. The images NOAA uses (which have corresponding file names) [are located here on their website](http://w1.weather.gov/xml/current_obs/weather.php).
 
 #### `$weather_feedUpdatedAt;`
 This indicates the time NOAA's feed says the weather information was updated. Note this is NOT the time the data was cached locally (which is likely to be a more recent time).

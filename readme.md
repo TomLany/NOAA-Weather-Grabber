@@ -32,7 +32,7 @@ Specify how often you want the weather data cache updated in seconds. By default
 Refraining from updating too frequently will keep your website fast and request data from NOAA less. The cache needs to refresh frequently enough so the weather data is current, though. This script may not update at the same time each hour; it only updates as data is requested.
 
 ### `WEATHER_URL` and `CACHEDATA_FILE`
-These variables store the full path to the weather data location and cache data file, respectively. You probably won't need to edit them. 
+These variables store the full path to the weather data location and cache data file, respectively. You probably won't need to edit them.
 
 ## Using the Data
 Once you have filled in the configuration information, you are about ready to pull weather data!

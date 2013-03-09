@@ -3,7 +3,7 @@
  * Current NOAA Weather Grabber
  *
  * This lightweight PHP script gets the current weather condition,
- * temperature, and the name of a corresponding condition image 
+ * temperature, and the name of a corresponding condition image
  * from NOAA and makes the data available for use in a PHP document
  * It includes a built-in JSON cache.
  *
@@ -110,7 +110,7 @@ function make_new_cachedata() {
 	// Set a timeout and grab the weather feed
 	$opts = array('http' => array(
 							'method' => 'GET',
-							'timeout' => 5		//seconds
+							'timeout' => 5		// seconds
 							));
 	$context = stream_context_create($opts);
 	$raw_weather = file_get_contents(WEATHER_URL, false, $context);
@@ -120,7 +120,7 @@ function make_new_cachedata() {
 		$xml = simplexml_load_string($raw_weather);
 
 		$weather['condition'] 		= htmlentities((string)$xml->weather);
-		$weather['temp']			= htmlentities(number_format((string)$xml->temp_f)); // strip decimal place
+		$weather['temp']			= htmlentities(number_format((string)$xml->temp_f)); // strip decimal place and following
 		$weather['imgCode']			= htmlentities((string)$xml->icon_url_name);
 		$weather['feedUpdatedAt'] 	= htmlentities((string)$xml->observation_time_rfc822);
 	}

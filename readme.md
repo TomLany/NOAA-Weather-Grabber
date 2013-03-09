@@ -18,7 +18,7 @@ You need to save the `weather.php` file on your web server where it can be used 
 Next, you'll need change just a few configuration variables to make it work with your setup. Find these variables at the top of the weather.php file.
 
 ### `WEATHER_CITY_CODE`
-Specify the 4-letter code for the location that you want to use. Go to [http://www.weather.gov/](http://weather.gov/) and search for the location you want. On the resulting page, [currently] to the right of the current temperature, you will find "Current conditions at:", followed by the monitoring location and it's four letter code in parenthesis. You should enter this four letter code into `WEATHER_CITY_CODE`. For example, if you want weather data from Central Park in New York City, NY, USA, type `KNYC`.
+Specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://weather.gov/) and search for the location you want. On the resulting page, [currently] to the right of the current temperature, you will find "Current conditions at:", followed by the monitoring location and it's four letter code in parenthesis. You should enter this four letter code into `WEATHER_CITY_CODE`. For example, if you want weather data from Central Park in New York City, NY, USA, type `KNYC`.
 
 ### `CACHEDATA_FILE_PATH`
 Enter the full file path to the location where you want this script to save it's data. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder called weather, you might type `/home/bubba/weather/`.

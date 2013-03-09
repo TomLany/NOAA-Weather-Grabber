@@ -4,7 +4,7 @@ This lightweight PHP script gets the current weather condition, temperature, and
 
 A built-in caching mechanism saves the results to a JSON file. Requests made within the cache period receive cached data. The cache is updated for the first request after it expires.
 
-This was designed to handle current weather conditions. It could be expanded to handle full forecasts.
+This was designed to handle current weather conditions for a single location. It could be expanded to handle full forecasts and/or multiple locations.
 
 * Web URL: [https://github.com/TomLany/Weather-Grabber](https://github.com/TomLany/Weather-Grabber)
 * Modified heavily by: Tom Lany, [http://tomlany.net/](http://tomlany.net/)

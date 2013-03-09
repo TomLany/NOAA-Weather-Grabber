@@ -119,9 +119,11 @@ function make_new_cachedata() {
 	if ($raw_weather) {
 		$xml = simplexml_load_string($raw_weather);
 
+		$imgCodeNoExtension = explode(".png", $xml->icon_url_name);
+
 		$weather['condition'] 		= htmlentities((string)$xml->weather);
 		$weather['temp']			= htmlentities(number_format((string)$xml->temp_f)); // strip decimal place and following
-		$weather['imgCode']			= htmlentities((string)$xml->icon_url_name);
+		$weather['imgCode']			= htmlentities((string)$imgCodeNoExtension[0]);
 		$weather['feedUpdatedAt'] 	= htmlentities((string)$xml->observation_time_rfc822);
 	}
 

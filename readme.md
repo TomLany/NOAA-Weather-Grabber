@@ -80,5 +80,7 @@ The following is a complete example of what you could put in the page you want t
 	
 	?>
 
+Again, when using this code, make sure the require location corresponds to the location of the `weather.php` file on your server.
+
 ## Questions?
 If you have any questions/issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/Weather-Grabber/issues).

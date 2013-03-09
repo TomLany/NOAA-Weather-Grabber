@@ -42,6 +42,8 @@ You will need to include the `weather.php` file in the page where you want weath
 
 	<?php require_once('weather.php'); ?>
 
+Make sure the require location corresponds to the location of the `weather.php` file on your server.
+
 ### Use the variables
 You're ready to use the data! The weather data is included in four variables. You can echo each one where you want your weather data. You don't have to use each variable, and you can certainly omit some if that suits your project best. Each variable is described in more detail below.
 

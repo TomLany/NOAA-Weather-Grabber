@@ -6,9 +6,9 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 
 This was designed to handle current weather conditions. It could be expanded to handle full forecasts.
 
-* Web URL: https://github.com/TomLany/Weather-Grabber
-* Modified heavily by: Tom Lany, http://tomlany.net/
-* Based on: https://github.com/UCF/Weather-Data
+* Web URL: [https://github.com/TomLany/Weather-Grabber](https://github.com/TomLany/Weather-Grabber)
+* Modified heavily by: Tom Lany, [http://tomlany.net/](http://tomlany.net/)
+* Based on: [https://github.com/UCF/Weather-Data](https://github.com/UCF/Weather-Data)
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
@@ -24,7 +24,7 @@ Specify the 4-letter code for the location that you want to use. Go to [http://w
 Enter the full file path to the location where you want this script to save it's data. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder called weather, you might type `/home/bubba/weather/`.
 
 ### `TIMEZONE`
-Enter your timezone in PHP format. You can see the list of possible timezones by going to [http://php.net/manual/en/timezones.php](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
+Enter your timezone in PHP format. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
 
 ### `WEATHER_CACHE_DURATION`
 Specify how often you want the weather data cache updated in seconds. By default, the script requests data once per hour (every 3600 seconds). NOAA currently refreshes their feed data about fifty minutes after each hour.
@@ -54,7 +54,7 @@ This indicates the current temperature in Fahrenheit, such as "80". You may want
 If you'd prefer to use Celsius, you could change `temp_f` to `temp_c` in weather.php on approximately line 111.
 
 #### `$weather_imgCode;`
-This script outputs a weather image code. It does not include weather images. The images NOAA uses (which have corresponding file names) are here: [http://w1.weather.gov/xml/current_obs/weather.php])http://w1.weather.gov/xml/current_obs/weather.php).
+This script outputs a weather image code. It does not include weather images. The images NOAA uses (which have corresponding file names)[are located here on their website](http://w1.weather.gov/xml/current_obs/weather.php).
 
 #### `$weather_feedUpdatedAt;`
 This indicates the time NOAA's feed says the weather information was updated. Note this is NOT the time the data was cached locally (which is likely to be a more recent time).
@@ -79,4 +79,4 @@ The following is a complete example of what you could put in the page you want t
 	?>
 
 ## Questions?
-If you have any questions/issues, feel free to leave a comment in the issue tracker at (https://github.com/TomLany/Weather-Grabber/issues)[https://github.com/TomLany/Weather-Grabber/issues].
+If you have any questions/issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/Weather-Grabber/issues).

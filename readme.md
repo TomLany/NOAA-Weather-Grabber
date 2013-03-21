@@ -75,7 +75,7 @@ Once this script is working with the file you want to include weather data in, m
 ## Notes
 * If the remote weather data file cannot be found, or if there is a problem with it, the an empty cache file will be saved. This blank file will cause the script to try to find the weather data and cache it next time the script is run. If you are having problems getting this script going, make sure the remote file location in `CACHEDATA_FILE` looks correct.
 
-## Example
+## Examples
 This is a simple example of what you do to pull weather information in a PHP file. Don't forget to include the correct path to your `weather.php` file.
 
 	<?php

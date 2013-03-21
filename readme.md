@@ -61,6 +61,14 @@ This script outputs a weather image code, without a file extension. Weather imag
 #### `$weather_feedUpdatedAt;`
 This indicates the time NOAA's feed says the weather information was updated. Note this is NOT the time the data was cached locally (which is likely to be a more recent time).
 
+You may wish to put the HTML you use surrounding the weather data in conditional tags so that it isn't used if no weather data is returned. Here's an example of how you can do that:
+
+	<?php
+		if ($weather_condition !== "") {
+			echo '<p>'.$weather_condition.'</p>';
+		}
+	?>
+
 ### Check the cache
 Once this script is working with the file you want to include weather data in, make sure the cache is working. Find the cache file on your server and ensure that it is not updated every time you update the page the weather is included on, but only as often as the cache is run. It is imperative that the cache is run properly to ensure good performance.
 
@@ -68,7 +76,7 @@ Once this script is working with the file you want to include weather data in, m
 * If the remote weather data file cannot be found, or if there is a problem with it, the an empty cache file will be saved. This blank file will cause the script to try to find the weather data and cache it next time the script is run. If you are having problems getting this script going, make sure the remote file location in `CACHEDATA_FILE` looks correct.
 
 ## Example
-The following is a complete example of what you could put in the page you want to include weather data on to pull the weather information.
+This is a simple example of what you do to pull weather information in a PHP file. Don't forget to include the correct path to your `weather.php` file.
 
 	<?php
 	require_once('weather.php');
@@ -80,7 +88,25 @@ The following is a complete example of what you could put in the page you want t
 	
 	?>
 
-Again, when using this code, make sure the require location corresponds to the location of the `weather.php` file on your server.
+The following example includes conditional tags and sample HTML you could use to display weather data. Don't forget to include the correct path to your image library and your `weather.php` file.
+
+	<?php require_once('weather.php'); ?>
+	
+	<ul>
+	
+		<?php if ($weather_imgCode !== "") { ?>
+			<li><img src="<?php echo 'img/'.$weather_imgCode.'.jpg' ?>" alt="<?php echo $weather_condition; ?>" /></li>
+		<?php } ?>
+	
+		<?php if ($weather_temp !== "") { ?>
+			<li><?php echo $weather_temp; ?>&deg; F</li>
+		<?php } ?>
+	
+		<?php if ($weather_condition !== "") { ?>
+			<li><?php echo $weather_condition; ?></li>
+		<?php } ?>
+	
+	</ul>
 
 ## Questions?
 If you have any questions/issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/Weather-Grabber/issues).

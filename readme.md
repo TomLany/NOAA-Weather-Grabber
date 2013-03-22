@@ -24,7 +24,7 @@ Specify the 4-letter code for the location that you want to use. Go to [weather.
 Enter the full file path to the location where you want this script to save it's data, including the trailing slash. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder on your server called weather, you might type `/home/bubba/weather/`.
 
 ### `TIMEZONE`
-Enter your timezone in PHP format. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
+Enter your timezone in PHP format. This is set to America/Chicago by default. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
 
 ### `WEATHER_CACHE_DURATION`
 Specify how often you want the weather data cache updated in seconds. By default, the script requests data once per hour (every 3600 seconds). NOAA currently refreshes their feed data about fifty minutes after each hour.

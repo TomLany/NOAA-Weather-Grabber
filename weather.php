@@ -30,7 +30,7 @@ define('WEATHER_CITY_CODE', '');
 // Enter the full file path to your cache data folder. Make sure the folder is writable.
 define('CACHEDATA_FILE_PATH', '');
 
-// Enter your timezone code from http://php.net/manual/en/timezones.php. This is set to Chicago by default.
+// Enter your timezone code from http://php.net/manual/en/timezones.php. This is set to America/Chicago by default.
 define('TIMEZONE', 'America/Chicago');
 
 // Enter the cache duration, in seconds.

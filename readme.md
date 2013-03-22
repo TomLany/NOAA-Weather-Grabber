@@ -88,7 +88,7 @@ This is a simple example of what you do to pull weather information in a PHP fil
 	
 	?>
 
-The following example includes conditional tags and sample HTML you could use to display weather data. Don't forget to include the correct path to your image library and your `weather.php` file.
+The following example includes conditional tags and sample HTML you could use to display weather data in a PHP file. Don't forget to include the correct path to your image library and your `weather.php` file.
 
 	<?php require_once('weather.php'); ?>
 	

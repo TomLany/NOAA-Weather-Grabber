@@ -95,7 +95,9 @@ function make_new_cachedata() {
 
 	// End this function if the weather feed cannot be found
 	$weather_url_headers = get_headers(WEATHER_URL);
-	if ($weather_url_headers[0] !== "HTTP/1.0 200 OK") {
+	if ($weather_url_headers[0] == "HTTP/1.1 200 OK") {}
+	elseif ($weather_url_headers[0] == "HTTP/1.0 200 OK") {}
+	else {
 		return;
 	}
 

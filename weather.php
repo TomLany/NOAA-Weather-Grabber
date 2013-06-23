@@ -55,35 +55,18 @@ function get_weather_data() {
 
 	date_default_timezone_set(TIMEZONE);
 
-	// Check if cached weather data already exists
-	if (file_exists(CACHEDATA_FILE)) {
-		$weather_string = file_get_contents(CACHEDATA_FILE) or die('Cache file open failed.');
-
-		// The cache time must be within now and the cache duration
-		// to return cached data:
-		if ($weather_string) {
-
-			// Checks to see if the cache needs to be updated
-			if ( date('YmdHis', filemtime(CACHEDATA_FILE)) > date('YmdHis', strtotime('Now -'.WEATHER_CACHE_DURATION.' seconds')) ) {
-				$weather = (json_decode($weather_string, true));
-				return $weather;
-			}
-			else {
-				return make_new_cachedata();
-			}
-
-		}
-		else {
-			return make_new_cachedata();
-		}
-
+	// Check if cached weather data already exists and if the cache has expired
+	if ( ( file_exists(CACHEDATA_FILE) ) && ( date('YmdHis', filemtime(CACHEDATA_FILE)) > date('YmdHis', strtotime('Now -'.WEATHER_CACHE_DURATION.' seconds')) ) ) {
+		$weather_string = file_get_contents(CACHEDATA_FILE) or make_new_cachedata();
+		$weather = (json_decode($weather_string, true));
+		return $weather;
 	}
+
 	else {
 		return make_new_cachedata();
 	}
 
 }
-
 
 /**
  * Returns an array of weather data and saves the data

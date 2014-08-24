@@ -43,7 +43,7 @@ define( 'WEATHER_CACHE_DURATION', 1800 );
 /**
  * Functions
  * This area sets up some functions used throughout the script.
- */
+ **/
 
 // Defines the URL that the weather will be grabbed from
 function noaa_weather_grabber_weather_url( $city ) {

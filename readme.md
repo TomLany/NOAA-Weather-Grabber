@@ -45,7 +45,7 @@ When you're ready to use the plugin, include it in the script you would like to 
 
 `require_once( 'weather.php' );`
 
-### Call the function
+### Call the Function
 To use NOAA Weather Grabber, call this function:
 
 `$weather = noaa_weather_grabber( 'KMSP', 'yes' );`
@@ -62,7 +62,7 @@ In the second argument, you can specify if you want to use the cache. It is stro
 * To NOT use the cache, specify `"no"`. 
 * To use the cache, but force the cache to be updated each time the page is loaded, specify `"update"`.
 
-### Get the data
+### Get the Data
 The weather data is returned from the function as an array. Use the data most relevant to your project. The following are the keys the in the array and a description of the values they contain:
 
 * `okay` - Tells whether or not the function ran and gathered weather data. "yes" is returned if the function was successful, otherwise "no" is returned.

@@ -2,20 +2,23 @@
 /**
  * Current NOAA Weather Grabber
  * version 3.0.0
- *
- * This lightweight PHP script gets the current weather condition,
- * temperature, and the name of a corresponding condition image
- * from NOAA and makes the data available for use in a PHP document.
- * It includes a built-in JSON cache.
- *
- * See readme.md for more information.
- *
- * Web URL: https://github.com/TomLany/Weather-Grabber
- * Modified heavily by: Tom Lany, http://tomlany.net/
- * Based on: https://github.com/UCF/Weather-Data
- *
+
+This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website.
+
+A built-in caching mechanism saves the results to a JSON file. Requests made within the cache period receive cached data. The cache is updated during the first request after it expires.
+
+Requires PHP 5.1.0 or later.
+
+Note: The function name and way you access the data have changed in version 3.0.0. If you are upgrading this script, you may need to modify the way you call the function, as the old method no longer works. Please read the readme, below, for more information on how to use the current function.
+
+Web URL: https://github.com/TomLany/Weather-Grabber
+Modified heavily and expanded by: Tom Lany, http://tomlany.net/
+Based on: https://github.com/UCF/Weather-Data
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Read more about how to setup this script in readme.md.
+ **/
 
 
 /**

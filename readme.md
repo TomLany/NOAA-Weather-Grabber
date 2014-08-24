@@ -70,7 +70,7 @@ The weather data is returned from the function as an array. Use the data most re
 * `temp` - The current temperature is displayed in Fahrenheit. You may want to include the degree sign (`&deg;` in HTML), and/or an F following the temperature. If you'd prefer to use Celsius, you could change `temp_f` to `temp_c` in `weather.php`.
 * `imgCode` - A weather image code, without the file extension, is outputted. Weather images are not included in this package. The images NOAA uses (which have corresponding file names) [are located here on their website](http://w1.weather.gov/xml/current_obs/weather.php).
 * `feedUpdatedAt` - This indicates the time NOAA's feed says the weather information was updated, in [RFC2822 format](http://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822).
-* `feedCachedAt` - This indicates the time NOAA's feed says the weather information was cached on your server, in [RFC2822 format](http://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822).
+* `feedCachedAt` - This indicates the time the weather information was cached on your server, in [RFC2822 format](http://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822).
 
 An example of how to display this data is included in `sample.php`.
 

@@ -25,7 +25,7 @@ You need to save the `weather.php` file on the web server where you will be usin
 A couple of configuration variables at the top need to be modified to make this work with your setup. See the top of `weather.php`. What to enter for each variable:
 
 #### `CACHEDATA_FILE_PATH`
-Enter the full file path to the location where you want this script to save it's data, including the trailing slash. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder on your server called weather, you might type `/home/bubba/weather/`.
+Enter the full file path to the location where you want this script to save its data, including the trailing slash. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder on your server called weather, you might type `/home/bubba/weather/`.
 
 #### `TIMEZONE`
 Enter your timezone in PHP format. This is set to America/Chicago by default. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
@@ -51,10 +51,10 @@ To use NOAA Weather Grabber, call this function:
 
 The function has two arguments that you can set where you call it:
 
-#### `$city`
-The first argument lets you specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, [currently] to the right of the current temperature, you will find "Current conditions at:", followed by the monitoring location and it's four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`.
+#### `$city` (Required)
+The first argument lets you specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, [currently] to the right of the current temperature, you will find "Current conditions at:", followed by the monitoring location and its four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`.
 
-#### `$use_cache`
+#### `$use_cache` (Optional, defaults to `yes`)
 In the second argument, you can specify if you want to use the cache. It is strongly recommended that you use the cache, as it will speed page loads, and make responsible use of the external data source.
 
 * To use the cache, specify `"yes"`.

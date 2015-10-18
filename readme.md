@@ -43,9 +43,9 @@ Enter your email address. This information will be sent to NOAA as a part of the
 Enter your timezone in PHP format. This is set to America/Chicago by default. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
 
 #### `WEATHER_CACHE_DURATION`
-Specify how often you want the weather data cache updated in seconds. By default, the script requests data once every half hour (every 1800 seconds). NOAA currently refreshes their feed data at about fifty minutes after each hour.
+Specify how often you want the weather data cache updated in seconds. By default, the script requests data once every hour (every 3600 seconds). NOAA currently refreshes their feed data once each hour at about fifty minutes after each hour.
 
-By not updating the cache constantly, your website will remain fast and you will request data from NOAA at a reasonable frequency. It is possible that NOAA could block your access to weather data if you request data at an unreasonable rate. The cache needs to refresh frequently enough so the weather data is current, though. Note the cache only updates when pages where this script is included are loaded.
+By not updating the cache constantly, your website will remain fast and you will request data from NOAA at a reasonable frequency. It is possible that NOAA could block your access to weather data if you request data at an unreasonable rate. Because NOAA's data is only updated once each hour, new data is only available at this frequency. The cache needs to refresh frequently enough so the weather data is current, though. Note the cache only updates when pages where this script is included are loaded.
 
 #### `SCRIPT_VERSION`
 This is the version of the script that you are using. Leave this value as it is set.

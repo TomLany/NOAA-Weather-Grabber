@@ -64,7 +64,7 @@ To use NOAA Weather Grabber, call this function:
 The function has three arguments that you can set where you call it:
 
 #### `$city` (Required)
-The first argument lets you specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, [currently] to the right of the current temperature, you will find "Current conditions at:", followed by the monitoring location and its four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`. If the location you are viewing has a code that is not four digits, you can still enter it here, but you must enter in a point forecast URL in the third argument.
+The first argument lets you specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, [currently] just above the current temperature, you will find "Current conditions at:", followed by the monitoring location and its four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`. If the location you are viewing has a code that is not four digits, you can still enter it here, but you must enter in a point forecast URL in the third argument.
 
 #### `$use_cache` (Optional, defaults to `yes`)
 In the second argument, you can specify if you want to use the cache. It is strongly recommended that you use the cache, as it will speed page loads, and make responsible use of the external data source.

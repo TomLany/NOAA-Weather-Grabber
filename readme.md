@@ -34,7 +34,7 @@ A couple of configuration variables at the top need to be modified to make this 
 Enter the full file path to the location where you want this script to save its data, including the trailing slash. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder on your server called weather, you might type `/home/bubba/weather/`.
 
 #### `WEBSITE_URL`
-Enter the URL of the website you will be using this script on. This information will be sent to NOAA as a part of the user agent request header when grabbing weather data. NOAA blocks requests without a user agent header set, and recommends providing this information.
+Enter the URL of the website you will be using this script on. This information will be sent to NOAA as a part of the user agent request header when grabbing weather data. NOAA blocks requests without a user agent header set, and recommends providing this information. Any URL format is acceptable.
 
 #### `EMAIL_ADDRESS`
 Enter your email address. This information will be sent to NOAA as a part of the user agent request header when grabbing weather data. NOAA blocks requests without a user agent header set, and recommends providing this information so they can contact you if there are any problems with your use of their data that might result in them blocking your use of the service.

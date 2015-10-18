@@ -8,7 +8,7 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 Requires PHP 5.1.0 or later.
 
 Notes:
-* NOAA began requiring that weather scripts specify a user agent in the request header. Versions of this script prior to 3.1.0 no longer work. Upgrading to version 3.1.0 or later is recommended. 
+* NOAA began requiring that weather scripts specify a user agent in the request header. Versions of this script prior to 3.1.0 no longer work. Upgrading to version 3.1.0 or later is recommended.
 * The function name and way you access the data have changed in version 3.0.0. If you are upgrading from an older version, you may need to modify the way you call the function, as the old method no longer works. Please read the readme, below, for more information on how to use the current function.
 
 * Web URL: [https://github.com/TomLany/Weather-Grabber](https://github.com/TomLany/Weather-Grabber)

@@ -113,6 +113,14 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 
 // Get data from feed for standard forecast URLs
 function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
+	$initialTemp = $raw_weather->temp_f;
+	if ( strlen( trim( $initialTemp )) > 0 ) {
+		$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
+	}
+	else {
+		$temp = NULL;
+	}
+
 	$imgCodeNoExtension = htmlentities( $raw_weather->icon_url_name, ENT_QUOTES );
 	$imgCodeNoExtension = explode( '.png', $imgCodeNoExtension );
 
@@ -120,7 +128,7 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
 	$weather->okay			= "yes";
 	$weather->location		= htmlentities( $raw_weather->location, ENT_QUOTES );
 	$weather->condition		= htmlentities( $raw_weather->weather, ENT_QUOTES );
-	$weather->temp			= intval( htmlentities( $raw_weather->temp_f )); // strip decimal place and following
+	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCodeNoExtension[0];
 	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->observation_time_rfc822)), ENT_QUOTES );
 	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
@@ -130,6 +138,14 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
 
 // Get data from feed for point forecast URLs
 function noaa_weather_grabber_get_point_forecast( $raw_weather ) {
+	$initialTemp = $raw_weather->data[1]->parameters->temperature[0]->value;
+	if ( strlen( trim( $initialTemp )) > 0 ) {
+		$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
+	}
+	else {
+		$temp = NULL;
+	}
+
 	$imgCodeNoExtension = htmlentities( $raw_weather->data[1]->parameters->{'conditions-icon'}->{'icon-link'}, ENT_QUOTES );
 	$imgCodeNoExtension = explode( '/medium/', $imgCodeNoExtension );
 	$imgCodeNoExtension = explode( '.png', $imgCodeNoExtension[1] );
@@ -138,7 +154,7 @@ function noaa_weather_grabber_get_point_forecast( $raw_weather ) {
 	$weather->okay			= "yes";
 	$weather->location		= htmlentities( $raw_weather->data[1]->location->{'area-description'}, ENT_QUOTES );
 	$weather->condition		= htmlentities( $raw_weather->data[1]->parameters->weather->{'weather-conditions'}['weather-summary'], ENT_QUOTES );
-	$weather->temp			= intval( htmlentities( $raw_weather->data[1]->parameters->temperature[0]->value )); // strip decimal place and following
+	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCodeNoExtension[0];
 	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->data[1]->{'time-layout'}->{'start-valid-time'} )), ENT_QUOTES );
 	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
@@ -238,12 +254,21 @@ function noaa_weather_grabber( $city = NULL, $use_cache = "yes", $point_forecast
 		$raw_weather = file_get_contents( $cachedata_file ) or die( 'Cache file open failed.' );
 		$raw_weather = json_decode( $raw_weather );
 		if ( $raw_weather->okay == "yes" ) {
+			// Setup temperature
+			$initialTemp = $raw_weather->temp;
+			if ( !is_null( $initialTemp )) {
+				$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
+			}
+			else {
+				$temp = NULL;
+			}
+
 			// Sanitize weather in a new variable
 			$weather = new stdClass();
 			$weather->okay			= htmlentities( $raw_weather->okay, ENT_QUOTES );
 			$weather->location		= htmlentities( $raw_weather->location, ENT_QUOTES );
 			$weather->condition		= htmlentities( $raw_weather->condition, ENT_QUOTES );
-			$weather->temp			= intval( htmlentities( $raw_weather->temp ));
+			$weather->temp			= $temp;
 			$weather->imgCode		= htmlentities( $raw_weather->imgCode, ENT_QUOTES );
 			$weather->feedUpdatedAt	= htmlentities( $raw_weather->feedUpdatedAt, ENT_QUOTES );
 			$weather->feedCachedAt	= htmlentities( $raw_weather->feedCachedAt, ENT_QUOTES );

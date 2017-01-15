@@ -13,7 +13,7 @@ Notes:
 * This script provides weather information from NOAA, which covers the United States only.
 
 Website:
-* Web URL: [https://github.com/TomLany/Weather-Grabber](https://github.com/TomLany/Weather-Grabber)
+* Web URL: [https://github.com/TomLany/NOAA-Weather-Grabber](https://github.com/TomLany/NOAA-Weather-Grabber)
 * Modified heavily and expanded by: Tom Lany, [http://tomlany.net/](http://tomlany.net/)
 * Based on: [https://github.com/UCF/Weather-Data](https://github.com/UCF/Weather-Data)
 
@@ -108,4 +108,4 @@ Since 3.1.0
 * The default cache duration is now 3600 seconds.
 
 ## Questions?
-If you have any questions or issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/Weather-Grabber/issues).
+If you have any questions or issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/NOAA-Weather-Grabber/issues).

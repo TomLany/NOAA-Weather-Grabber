@@ -9,7 +9,7 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 
 Requires PHP 5.1.0 or later.
 
-Web URL: https://github.com/TomLany/Weather-Grabber
+Web URL: https://github.com/TomLany/NOAA-Weather-Grabber
 Modified heavily and expanded by: Tom Lany, http://tomlany.net/
 Based on: https://github.com/UCF/Weather-Data
 

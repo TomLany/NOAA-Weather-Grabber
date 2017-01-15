@@ -1,7 +1,7 @@
 # NOAA Weather Grabber
 version 3.1.0
 
-This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website.
+This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from the  National Oceanic and Atmospheric Administration (NOAA)'s National Weather Service (NWS) and makes the data available for use in your PHP script/website.
 
 A built-in caching mechanism saves the results to a JSON file. Requests made within the cache period receive cached data. The cache is updated during the first request after it expires.
 
@@ -10,6 +10,7 @@ Requires PHP 5.1.0 or later.
 Notes:
 * NOAA began requiring that weather scripts specify a user agent in the request header. Versions of this script prior to 3.1.0 no longer work. Upgrading to version 3.1.0 or later is recommended.
 * The function name and way you access the data have changed in version 3.0.0. If you are upgrading from an older version, you may need to modify the way you call the function, as the old method no longer works. Please read the readme, below, for more information on how to use the current function.
+* This script provides weather information from NOAA, which covers the United States only.
 
 Website:
 * Web URL: [https://github.com/TomLany/Weather-Grabber](https://github.com/TomLany/Weather-Grabber)

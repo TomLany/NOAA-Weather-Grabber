@@ -208,7 +208,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 
 	// See if cached data is available and usable
 	if (( $use_cache == "no" ) || ( $use_cache == "update" )) {$continue = "cacheOff";}
-	if ( $stationId == NULL ) {$continue = "cityError";}
+	if ( $stationId == NULL ) {$continue = "stationIDError";}
 	if ( $continue == "yes" ) {
 		if (( file_exists( $cachedata_file ) ) && ( date('YmdHis', filemtime( $cachedata_file )) > date( 'YmdHis', strtotime( 'Now -'.WEATHER_CACHE_DURATION.' seconds' )))) {}
 		else {$continue = "outdated";}
@@ -243,7 +243,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 			return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache );
 		}
 	}
-	elseif ( $continue == "cityError" ) {
+	elseif ( $continue == "stationIDError" ) {
 		$weather = new stdClass();
 		$weather->okay = "no";
 		return( $weather );

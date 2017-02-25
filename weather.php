@@ -34,9 +34,6 @@ define( 'WEBSITE_URL', '' );
 // Enter your email address. This is sent in the header of the request to NOAA for data so they can contact you if they notice  problems.
 define( 'EMAIL_ADDRESS', '' );
 
-// Enter your timezone code from http://php.net/manual/en/timezones.php. This is set to America/Chicago by default.
-define( 'TIMEZONE', 'America/Chicago' );
-
 // Enter the cache duration, in seconds. Suggested: 3600.
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
@@ -53,7 +50,7 @@ define( 'SCRIPT_VERSION', '4.0.0' );
  **/
 
 // Set the timezone
-date_default_timezone_set( TIMEZONE );
+date_default_timezone_set( "UTC" );
 
 // Defines the URL that the weather will be grabbed from
 function noaa_weather_grabber_weather_url( $stationId ) {
@@ -108,7 +105,7 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 
 // Get data from feed for standard forecast URLs
 function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
-	$initialTemp = $raw_weather->properties->temperature;
+	$initialTemp = $raw_weather->properties->temperature->value;
 	if ( strlen( trim( $initialTemp )) > 0 ) {
 		$temp = floatval( htmlentities( $initialTemp )); // Strip decimal place and following
 		$temp = $temp * 9 / 5 + 32; // Convert to Fahrenheit
@@ -128,7 +125,7 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
 	$weather->condition		= htmlentities( $raw_weather->properties->textDescription, ENT_QUOTES );
 	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCode;
-	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->properties->timestamp )), ENT_QUOTES ); // @todo Need to convert this to local time
+	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->properties->timestamp )), ENT_QUOTES );
 	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
 
 	return $weather;

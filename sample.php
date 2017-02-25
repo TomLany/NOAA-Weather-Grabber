@@ -36,7 +36,7 @@ function noaa_weather_grabber_test( $weather ) {
 <?php
 
 // Get the weather
-$weather = noaa_weather_grabber( 'KMSP', 'yes', NULL );
+$weather = noaa_weather_grabber( 'KMSP', 'yes' );
 
 // Run the weather test function
 noaa_weather_grabber_test( $weather );
@@ -48,7 +48,7 @@ noaa_weather_grabber_test( $weather );
 <?php
 
 // Get the weather
-$weather = noaa_weather_grabber( 'KMSP', 'yes', 'http://forecast.weather.gov/MapClick.php?lat=44.8835&lon=-93.2113&unit=0&lg=english&FcstType=dwml' );
+$weather = noaa_weather_grabber( 'KMSP', 'yes' );
 
 // Run the weather test function
 noaa_weather_grabber_test( $weather );

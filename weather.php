@@ -50,7 +50,7 @@ define( 'SCRIPT_VERSION', '4.0.0' );
  **/
 
 // Set the timezone
-date_default_timezone_set( "UTC" );
+date_default_timezone_set( 'UTC' );
 
 // Defines the URL that the weather will be grabbed from
 function noaa_weather_grabber_weather_url( $stationId ) {
@@ -122,7 +122,7 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
 
 	$weather = new stdClass();
 	$weather->okay			= "yes";
-	$weather->location		= htmlentities( $city, ENT_QUOTES );	
+	$weather->location		= htmlentities( $stationId, ENT_QUOTES );	
 	$weather->condition		= htmlentities( $raw_weather->properties->textDescription, ENT_QUOTES );
 	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCode;

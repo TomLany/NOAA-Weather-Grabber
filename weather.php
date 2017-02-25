@@ -122,6 +122,7 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
 
 	$weather = new stdClass();
 	$weather->okay			= "yes";
+	$weather->location		= htmlentities( $city, ENT_QUOTES );	
 	$weather->condition		= htmlentities( $raw_weather->properties->textDescription, ENT_QUOTES );
 	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCode;
@@ -228,6 +229,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 			// Sanitize weather in a new variable
 			$weather = new stdClass();
 			$weather->okay			= htmlentities( $raw_weather->okay, ENT_QUOTES );
+			$weather->location		= htmlentities( $raw_weather->location, ENT_QUOTES );
 			$weather->condition		= htmlentities( $raw_weather->condition, ENT_QUOTES );
 			$weather->temp			= $temp;
 			$weather->imgCode		= htmlentities( $raw_weather->imgCode, ENT_QUOTES );

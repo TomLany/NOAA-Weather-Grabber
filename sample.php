@@ -31,19 +31,6 @@ function noaa_weather_grabber_test( $weather ) {
 </head>
 <body>
 <h2>Current NOAA Weather Grabber &ndash; Sample</h2>
-<h3>Standard URL</h3>
-<pre>
-<?php
-
-// Get the weather
-$weather = noaa_weather_grabber( 'KMSP', 'yes' );
-
-// Run the weather test function
-noaa_weather_grabber_test( $weather );
-
-?>
-</pre>
-<h3>Point Forecast URL</h3>
 <pre>
 <?php
 

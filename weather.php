@@ -83,6 +83,7 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 	$opts = array( 	'http' => array(
 					'method' => 'GET',
 					'header' => "User-Agent: Current NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
+					'header' => 'Accept: application/geo+json;version=1\r\n',
 					'timeout' => 5		// seconds
 					));
 	$context = stream_context_create( $opts );
@@ -103,8 +104,8 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 	}
 }
 
-// Get data from feed for standard forecast URLs
-function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
+// Sanatize the weather information and add it to a variable
+function noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId ) {
 	$initialTemp = $raw_weather->properties->temperature->value;
 	if ( strlen( trim( $initialTemp )) > 0 ) {
 		$temp = floatval( htmlentities( $initialTemp )); // Strip decimal place and following
@@ -166,8 +167,7 @@ function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache ) {
 
 	// Sanatize the weather information and add it to a variable
 	if ( $continue == "yes" ) {
-		// Get data from feed
-		$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather );
+		$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId );
 	}
 
 	// If there was an error, produce error message

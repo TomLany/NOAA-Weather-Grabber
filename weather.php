@@ -127,8 +127,8 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId ) 
 	$weather->condition		= htmlentities( $raw_weather->properties->textDescription, ENT_QUOTES );
 	$weather->temp			= $temp;
 	$weather->imgCode		= $imgCode;
-	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->properties->timestamp )), ENT_QUOTES );
-	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
+	$weather->feedUpdatedAt	= htmlentities( $raw_weather->properties->timestamp, ENT_QUOTES );
+	$weather->feedCachedAt	= date( 'c' );
 
 	return $weather;
 }

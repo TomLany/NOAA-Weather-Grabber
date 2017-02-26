@@ -27,10 +27,10 @@ function noaa_weather_grabber_test( $weather ) {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Current NOAA Weather Grabber &ndash; Sample</title>
+<title>NOAA Weather Grabber &ndash; Sample</title>
 </head>
 <body>
-<h2>Current NOAA Weather Grabber &ndash; Sample</h2>
+<h2>NOAA Weather Grabber &ndash; Sample</h2>
 <pre>
 <?php
 

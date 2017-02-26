@@ -1,7 +1,7 @@
 <?php
 /**
- * Current NOAA Weather Grabber
- * version 3.1.0
+ * NOAA Weather Grabber
+ * version 4.0.0
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website.
 
@@ -82,7 +82,7 @@ function noaa_weather_grabber_check_feed( $http_response_header ) {
 function noaa_weather_grabber_get_feed( $weather_url ) {
 	$opts = array( 	'http' => array(
 					'method' => 'GET',
-					'header' => "User-Agent: Current NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
+					'header' => "User-Agent: NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
 					'header' => 'Accept: application/geo+json;version=1\r\n',
 					'timeout' => 5		// seconds
 					));

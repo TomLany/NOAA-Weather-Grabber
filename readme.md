@@ -93,7 +93,6 @@ An example of how to display this data is included in `sample.php`.
 Once this script is working with the file you want to include weather data in, make sure the cache is working. Find the cache file on your server and ensure that it is not updated every time you update the page the weather is included on, but only as often as the cache is run. It is important that the cache is running properly to ensure good performance.
 
 ## Changelog
-Since 3.1.0
 
 ### 4.0.0
 * This script now utilizes [NOAA's new weather API](https://forecast-v3.weather.gov/documentation) for data. The point forecast weather grabbing method has been removed. The main weather function call no longer includes a third argument, which was previously used for the point forecast option.
@@ -106,6 +105,8 @@ Since 3.1.0
 * Adds additional configuration fields for a website URL, email address and script version to comply with new NOAA request header requirements. Be sure to check your configuration at the top of the file.
 * Adds the ability to get point forecast data.
 * The default cache duration is now 3600 seconds.
+
+A changelog was not available before version 3.1.0.
 
 ## Questions?
 If you have any questions or issues, feel free to [leave a comment in the issue tracker](https://github.com/TomLany/NOAA-Weather-Grabber/issues).

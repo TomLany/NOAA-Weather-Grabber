@@ -1,5 +1,5 @@
 # NOAA Weather Grabber
-version 3.1.0
+version 4.0.0
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from the  National Oceanic and Atmospheric Administration (NOAA)'s National Weather Service (NWS) and makes the data available for use in your PHP script/website.
 
@@ -8,8 +8,8 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 Requires PHP 5.1.0 or later.
 
 Notes:
+* As of version 4.0.0, this script utilized NOAA's new weather API. Read the changelog below for more about the functional changes that were made in version 4.0.0 as a result of the new API. Changes to the script you use to read the data may be needed when updating.
 * NOAA began requiring that weather scripts specify a user agent in the request header. Versions of this script prior to 3.1.0 no longer work. Upgrading to version 3.1.0 or later is recommended.
-* The function name and way you access the data have changed in version 3.0.0. If you are upgrading from an older version, you may need to modify the way you call the function, as the old method no longer works. Please read the readme, below, for more information on how to use the current function.
 * This script provides weather information from NOAA, which covers the United States only.
 
 Website:
@@ -29,7 +29,7 @@ To use this script, you will need to edit the configuration, include the script,
 You need to save the `weather.php` file on the web server where you will be using it.
 
 ### Set the Configuration
-A couple of configuration variables at the top need to be modified to make this work with your setup. See the top of `weather.php`. What to enter for each variable:
+A few configuration variables at the top of `weather.php` need to be modified to make this work with your setup. What to enter for each variable:
 
 #### `CACHEDATA_FILE_PATH`
 Enter the full file path to the location where you want this script to save its data, including the trailing slash. Make sure the script has access to this location (the directory is writable). It's a good idea to save the data outside of the web tree, so that other people can't view the cached data directly on the web. For example, if your username is bubba and you want to store data in a folder on your server called weather, you might type `/home/bubba/weather/`.
@@ -40,13 +40,10 @@ Enter the URL of the website you will be using this script on. This information 
 #### `EMAIL_ADDRESS`
 Enter your email address. This information will be sent to NOAA as a part of the user agent request header when grabbing weather data. NOAA blocks requests without a user agent header set, and recommends providing this information so they can contact you if there are any problems with your use of their data that might result in them blocking your use of the service.
 
-#### `TIMEZONE`
-Enter your timezone in PHP format. This is set to America/Chicago by default. You can see the list of possible timezones by going to [PHP's List of Supported Timezones](http://php.net/manual/en/timezones.php) or by running `DateTimeZone::listIdentifiers();` in PHP 5.2 or later. For example, if you want to use the New York City, NY, USA timezone, enter `America/New_York`.
-
 #### `WEATHER_CACHE_DURATION`
 Specify how often you want the weather data cache updated in seconds. By default, the script requests data once every hour (every 3600 seconds). NOAA currently refreshes their feed data once each hour at about fifty minutes after each hour.
 
-By not updating the cache constantly, your website will remain fast and you will request data from NOAA at a reasonable frequency. It is possible that NOAA could block your access to weather data if you request data at an unreasonable rate. Because NOAA's data is only updated once each hour, new data is only available at this frequency. The cache needs to refresh frequently enough so the weather data is current, though. Note the cache only updates when pages where this script is included are loaded.
+By not updating the cache constantly, your website will remain fast and you will request data from NOAA at a reasonable frequency. It is possible that NOAA could block your access to weather data if you request data at an unreasonable rate. Because NOAA's data is only updated once each hour (just before the top of the hour), new data is only available at this frequency. The cache needs to refresh frequently enough so the weather data is current, though. Note the cache only updates when pages where this script is included are loaded.
 
 #### `SCRIPT_VERSION`
 This is the version of the script that you are using. Leave this value as it is set.
@@ -63,12 +60,12 @@ When you're ready to use the plugin, include it in the script you would like to 
 ### Call the Function
 To use NOAA Weather Grabber, call this function:
 
-`$weather = noaa_weather_grabber( 'KMSP', 'yes', NULL );`
+`$weather = noaa_weather_grabber( 'KMSP', 'yes' );`
 
-The function has three arguments that you can set where you call it:
+The function has two arguments that you can set where you call it:
 
-#### `$city` (Required)
-The first argument lets you specify the 4-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, [currently] just above the current temperature, you will find "Current conditions at:", followed by the monitoring location and its four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`. If the location you are viewing has a code that is not four digits, you can still enter it here, but you must enter in a point forecast URL in the third argument.
+#### `$stationID` (Required)
+The first argument lets you specify the four-letter code for the location that you want to use. Go to [weather.gov](http://www.weather.gov/) and search for the location you want. On the resulting page, just above the current temperature, you will find "Current conditions at:", followed by the monitoring location and its four letter code in parenthesis. You should enter this four letter code here. For example, if you want weather data from Central Park in Washington, D.C., type `KDCA`. The location you enter must be four digits. If the location you find is not four letters, you need to find another nearby location with a four-letter code to use. Try larger nearby cities.
 
 #### `$use_cache` (Optional, defaults to `yes`)
 In the second argument, you can specify if you want to use the cache. It is strongly recommended that you use the cache, as it will speed page loads, and make responsible use of the external data source.
@@ -77,19 +74,16 @@ In the second argument, you can specify if you want to use the cache. It is stro
 * To NOT use the cache, specify `"no"`. 
 * To use the cache, but force the cache to be updated each time the page is loaded, specify `"update"`.
 
-#### `$point_forecast_url` (Optional)
-In the third argument, you can optionally specify a point forecast feed URL to use. By default, the script will pull data from [NOAA's Current Weather Condition XML Feeds](http://w1.weather.gov/xml/current_obs/). If you specify a point forecast URL here, the script will instead pull the data from this address. To find a point forecast URL, first go to [weather.gov](http://www.weather.gov/) and search for the location you want. Then, scroll down and find the orange `XML` button. Follow the link and copy the URL for this feed into this argument. By using this method, you can get weather from locations without four letter airport codes.
-
 ### Get the Data
 The weather data is returned from the function as an array. Use the data most relevant to your project. The following are the keys the in the array and a description of the values they contain:
 
 * `okay` - Tells whether or not the function ran and gathered weather data. "yes" is returned if the function was successful, otherwise "no" is returned.
-* `location` - Reports the weather location.
+* `location` - Reports the weather location using the four-letter city code.
 * `condition` - This gives the current weather condition in words, such as "Sunny".
-* `temp` - The current temperature is displayed in Fahrenheit. You may want to include the degree sign (`&deg;` in HTML), and/or an F following the temperature. If you'd prefer to use Celsius, you could change `temp_f` to `temp_c` in `weather.php`.
-* `imgCode` - A weather image code, without the file extension, is outputted. Weather images from NOAA are included in this package. The [2015 NOAA icon set is utilized](http://www.weather.gov/forecast-icons). An [older icon set is also available on NOAA's website](http://w1.weather.gov/xml/current_obs/weather.php). The images in the `icons-large` folder are 136px x 136px. The images in the `icons-large` folder are 86px x 86px. The same images are included in both folders. Additional copies of some images were made so the image set is backwards compatible with older filenames for the icons.
-* `feedUpdatedAt` - This indicates the time NOAA's feed says the weather information was updated, in [RFC2822 format](http://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822).
-* `feedCachedAt` - This indicates the time the weather information was cached on your server, in [RFC2822 format](http://www.php.net/manual/en/class.datetime.php#datetime.constants.rfc2822).
+* `temp` - The current temperature is displayed in Fahrenheit. You may want to include the degree sign (`&deg;` in HTML), and/or an F following the temperature.
+* `imgCode` - A weather image code, consisting of day or night, then a "/", then the image name, without the file extension. Images that NOAA uses are included in this package in PNG format. The same images are included in all three folders. The images in the `icons-large` folder are 134px x 134px. The images in the `icons-medium` folder are 86px x 86px. The images in the `icons-small` folder are 56px x 56px. 
+* `feedUpdatedAt` - This indicates the time NOAA's feed says the weather information was updated, in [ISO8601 format](http://www.php.net/manual/en/class.datetime.php). The UTC timezone is used.
+* `feedCachedAt` - This indicates the time the weather information was cached on your server, in [ISO8601 format](http://www.php.net/manual/en/class.datetime.php). The UTC timezone is used.
 
 An example of how to display this data is included in `sample.php`.
 
@@ -100,6 +94,12 @@ Once this script is working with the file you want to include weather data in, m
 
 ## Changelog
 Since 3.1.0
+
+### 4.0.0
+* This script now utilizes [NOAA's new weather API](https://forecast-v3.weather.gov/documentation) for data. The point forecast weather grabbing method has been removed. The main weather function call no longer includes a third argument, which was previously used for the point forecast option.
+* `location` now returns the four letter city code, as opposed to the name of the location.
+* `imgCode` format changed so that the text provided first states day or night, then a "/", then the image names NOAA is using with the API. Previously, just the image name was provided. The images provided with the script have been updated to follow this format, which does not match the previous format.
+* `feedUpdatedAt` and `feedCachedAt` now use [ISO8601 format](http://www.php.net/manual/en/class.datetime.php). They are returned in UTC timezone, as opposed the user-specified timezone provided previously. The configuration constant for specifying a timezone has been removed.
 
 ### 3.1.0
 * Script now sends a unique HTTP request header, to conform with a new NOAA requirement that HTTP request headers be sent.

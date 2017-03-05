@@ -1,7 +1,7 @@
 <?php
 /**
- * Current NOAA Weather Grabber
- * version 3.1.0
+ * NOAA Weather Grabber
+ * version 4.0.0
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website.
 
@@ -10,7 +10,7 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 Requires PHP 5.1.0 or later.
 
 Web URL: https://github.com/TomLany/NOAA-Weather-Grabber
-Modified heavily and expanded by: Tom Lany, http://tomlany.net/
+Modified heavily and expanded by: Tom Lany, https://tomlany.net/
 Based on: https://github.com/UCF/Weather-Data
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -34,14 +34,11 @@ define( 'WEBSITE_URL', '' );
 // Enter your email address. This is sent in the header of the request to NOAA for data so they can contact you if they notice  problems.
 define( 'EMAIL_ADDRESS', '' );
 
-// Enter your timezone code from http://php.net/manual/en/timezones.php. This is set to America/Chicago by default.
-define( 'TIMEZONE', 'America/Chicago' );
-
 // Enter the cache duration, in seconds. Suggested: 3600.
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
 // The version of this script.
-define( 'SCRIPT_VERSION', '3.1.0' );
+define( 'SCRIPT_VERSION', '4.0.0' );
 
 // End of configuration -- you're done!
 // See readme.md for more information about including this in your script.
@@ -53,22 +50,17 @@ define( 'SCRIPT_VERSION', '3.1.0' );
  **/
 
 // Set the timezone
-date_default_timezone_set( TIMEZONE );
+date_default_timezone_set( 'UTC' );
 
 // Defines the URL that the weather will be grabbed from
-function noaa_weather_grabber_weather_url( $city, $point_forecast_url ) {
-	if (isset ( $point_forecast_url )) {
-		$weather_url = $point_forecast_url;
-	}
-	else {
-		$weather_url = 'http://w1.weather.gov/xml/current_obs/' . $city . '.xml';
-	}
+function noaa_weather_grabber_weather_url( $stationId ) {
+	$weather_url = 'https://api.weather.gov/stations/' . $stationId . '/observations/current';
 	return $weather_url;
 }
 
 // Defines the file that will be saved on the server
-function noaa_weather_grabber_cache_file( $city ) {
-	$cachedata_file = CACHEDATA_FILE_PATH.'weather_data_' . $city . '.json';
+function noaa_weather_grabber_cache_file( $stationId ) {
+	$cachedata_file = CACHEDATA_FILE_PATH.'weather_data_' . $stationId . '.json';
 	return $cachedata_file;
 }
 
@@ -90,7 +82,8 @@ function noaa_weather_grabber_check_feed( $http_response_header ) {
 function noaa_weather_grabber_get_feed( $weather_url ) {
 	$opts = array( 	'http' => array(
 					'method' => 'GET',
-					'header' => "User-Agent: Current NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
+					'header' => "User-Agent: NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
+					'header' => 'Accept: application/geo+json;version=1\r\n',
 					'timeout' => 5		// seconds
 					));
 	$context = stream_context_create( $opts );
@@ -100,7 +93,7 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 		// Check if the feed is working
 		$feed_check = noaa_weather_grabber_check_feed( $http_response_header );
 		if ( $feed_check == TRUE ) {
-			return simplexml_load_string( $raw_weather );
+			return json_decode( $raw_weather );
 		}
 		else {
 			return FALSE;
@@ -111,53 +104,31 @@ function noaa_weather_grabber_get_feed( $weather_url ) {
 	}
 }
 
-// Get data from feed for standard forecast URLs
-function noaa_weather_grabber_get_standard_forecast( $raw_weather ) {
-	$initialTemp = $raw_weather->temp_f;
+// Sanatize the weather information and add it to a variable
+function noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId ) {
+	$initialTemp = $raw_weather->properties->temperature->value;
 	if ( strlen( trim( $initialTemp )) > 0 ) {
-		$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
+		$temp = floatval( htmlentities( $initialTemp )); // Strip decimal place and following
+		$temp = $temp * 9 / 5 + 32; // Convert to Fahrenheit
+		$temp = intval( $temp ); // Convert to a whole number
 	}
 	else {
 		$temp = NULL;
 	}
 
-	$imgCodeNoExtension = htmlentities( $raw_weather->icon_url_name, ENT_QUOTES );
-	$imgCodeNoExtension = explode( '.png', $imgCodeNoExtension );
+	$imgCode = htmlentities( $raw_weather->properties->icon, ENT_QUOTES );
+	$imgCode = explode( 'weather.gov/icons/land/', $imgCode );
+	$imgCode = explode( '?size=', $imgCode[1] );
+	$imgCode = $imgCode[0];
 
 	$weather = new stdClass();
 	$weather->okay			= "yes";
-	$weather->location		= htmlentities( $raw_weather->location, ENT_QUOTES );
-	$weather->condition		= htmlentities( $raw_weather->weather, ENT_QUOTES );
+	$weather->location		= htmlentities( $stationId, ENT_QUOTES );	
+	$weather->condition		= htmlentities( $raw_weather->properties->textDescription, ENT_QUOTES );
 	$weather->temp			= $temp;
-	$weather->imgCode		= $imgCodeNoExtension[0];
-	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->observation_time_rfc822)), ENT_QUOTES );
-	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
-
-	return $weather;
-}
-
-// Get data from feed for point forecast URLs
-function noaa_weather_grabber_get_point_forecast( $raw_weather ) {
-	$initialTemp = $raw_weather->data[1]->parameters->temperature[0]->value;
-	if ( strlen( trim( $initialTemp )) > 0 ) {
-		$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
-	}
-	else {
-		$temp = NULL;
-	}
-
-	$imgCodeNoExtension = htmlentities( $raw_weather->data[1]->parameters->{'conditions-icon'}->{'icon-link'}, ENT_QUOTES );
-	$imgCodeNoExtension = explode( '/medium/', $imgCodeNoExtension );
-	$imgCodeNoExtension = explode( '.png', $imgCodeNoExtension[1] );
-	
-	$weather = new stdClass();
-	$weather->okay			= "yes";
-	$weather->location		= htmlentities( $raw_weather->data[1]->location->{'area-description'}, ENT_QUOTES );
-	$weather->condition		= htmlentities( $raw_weather->data[1]->parameters->weather->{'weather-conditions'}['weather-summary'], ENT_QUOTES );
-	$weather->temp			= $temp;
-	$weather->imgCode		= $imgCodeNoExtension[0];
-	$weather->feedUpdatedAt	= htmlentities( date( 'Y-m-d H:i:s', strtotime( $raw_weather->data[1]->{'time-layout'}->{'start-valid-time'} )), ENT_QUOTES );
-	$weather->feedCachedAt	= date( 'Y-m-d H:i:s' );
+	$weather->imgCode		= $imgCode;
+	$weather->feedUpdatedAt	= htmlentities( $raw_weather->properties->timestamp, ENT_QUOTES );
+	$weather->feedCachedAt	= date( 'c' );
 
 	return $weather;
 }
@@ -179,11 +150,11 @@ function noaa_weather_grabber_write_to_file( $weather, $cachedata_file ) {
  * Returns an array of weather data and saves the data
  * to a cache file for later use.
  **/
-function noaa_weather_grabber_make_new_cachedata( $city, $use_cache, $point_forecast_url ) {
+function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache ) {
 
 	// Define variables
-	$weather_url = noaa_weather_grabber_weather_url( $city, $point_forecast_url );
-	$cachedata_file = noaa_weather_grabber_cache_file( $city );
+	$weather_url = noaa_weather_grabber_weather_url( $stationId );
+	$cachedata_file = noaa_weather_grabber_cache_file( $stationId );
 	$continue = "yes";
 
 	// Get the feed
@@ -196,15 +167,7 @@ function noaa_weather_grabber_make_new_cachedata( $city, $use_cache, $point_fore
 
 	// Sanatize the weather information and add it to a variable
 	if ( $continue == "yes" ) {
-
-		// Get data from feed
-		if (!isset ( $point_forecast_url )) {
-			$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather );
-		}
-		else {
-			$weather = noaa_weather_grabber_get_point_forecast( $raw_weather );
-		}
-
+		$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId );
 	}
 
 	// If there was an error, produce error message
@@ -230,20 +193,20 @@ function noaa_weather_grabber_make_new_cachedata( $city, $use_cache, $point_fore
  * depending on whether or not it exists and whether or not the
  * cache time has expired.
  **/
-function noaa_weather_grabber( $city = NULL, $use_cache = "yes", $point_forecast_url = NULL ) {
+function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 
-	// Make sure $city is capitalized
-	$city = strtoupper( $city );
+	// Make sure $stationId is capitalized
+	$stationId = strtoupper( $stationId );
 
 	// Get cache file location
-	$cachedata_file = noaa_weather_grabber_cache_file( $city );
+	$cachedata_file = noaa_weather_grabber_cache_file( $stationId );
 
 	// Set continue variable
 	$continue = "yes";
 
 	// See if cached data is available and usable
 	if (( $use_cache == "no" ) || ( $use_cache == "update" )) {$continue = "cacheOff";}
-	if ( $city == NULL ) {$continue = "cityError";}
+	if ( $stationId == NULL ) {$continue = "stationIDError";}
 	if ( $continue == "yes" ) {
 		if (( file_exists( $cachedata_file ) ) && ( date('YmdHis', filemtime( $cachedata_file )) > date( 'YmdHis', strtotime( 'Now -'.WEATHER_CACHE_DURATION.' seconds' )))) {}
 		else {$continue = "outdated";}
@@ -276,16 +239,16 @@ function noaa_weather_grabber( $city = NULL, $use_cache = "yes", $point_forecast
 			return( $weather );
 		}
 		else {
-			return noaa_weather_grabber_make_new_cachedata( $city, $use_cache, $point_forecast_url );
+			return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache );
 		}
 	}
-	elseif ( $continue == "cityError" ) {
+	elseif ( $continue == "stationIDError" ) {
 		$weather = new stdClass();
 		$weather->okay = "no";
 		return( $weather );
 	}
 	else {
-		return noaa_weather_grabber_make_new_cachedata( $city, $use_cache, $point_forecast_url );
+		return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache );
 	}
 
 }

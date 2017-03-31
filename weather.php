@@ -110,7 +110,7 @@ function noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId ) 
 	if ( strlen( trim( $initialTemp )) > 0 ) {
 		$temp = floatval( htmlentities( $initialTemp )); // Strip decimal place and following
 		$temp = $temp * 9 / 5 + 32; // Convert to Fahrenheit
-		$temp = intval( $temp ); // Convert to a whole number
+		$temp = round( $temp ); // Convert to a whole number
 	}
 	else {
 		$temp = NULL;
@@ -220,7 +220,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 			// Setup temperature
 			$initialTemp = $raw_weather->temp;
 			if ( !is_null( $initialTemp )) {
-				$temp = intval( htmlentities( $initialTemp )); // strip decimal place and following
+				$temp = round( htmlentities( $initialTemp )); // Convert to a whole number
 			}
 			else {
 				$temp = NULL;

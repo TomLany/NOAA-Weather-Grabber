@@ -8,7 +8,7 @@ A built-in caching mechanism saves the results to a JSON file. Requests made wit
 Requires PHP 5.1.0 or later.
 
 Notes:
-* As of version 4.0.0, this script utilized NOAA's new weather API. Read the changelog below for more about the functional changes that were made in version 4.0.0 as a result of the new API. Changes to the script you use to read the data may be needed when updating.
+* As of version 4.0.0, this script utilizes NOAA's new weather API. Read the changelog below for more about the functional changes that were made in version 4.0.0 as a result of the new API. Changes to the script you use to read the data may be needed when updating.
 * NOAA began requiring that weather scripts specify a user agent in the request header. Versions of this script prior to 3.1.0 no longer work. Upgrading to version 3.1.0 or later is recommended.
 * This script provides weather information from NOAA, which covers the United States only.
 

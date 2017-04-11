@@ -82,8 +82,8 @@ function noaa_weather_grabber_check_feed( $http_response_header ) {
 function noaa_weather_grabber_get_feed( $weather_url ) {
 	$opts = array( 	'http' => array(
 					'method' => 'GET',
-					'header' => "User-Agent: NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n",
-					'header' => 'Accept: application/geo+json;version=1\r\n',
+					'header' => "User-Agent: NOAA Weather Grabber/v" . SCRIPT_VERSION . ". (" . WEBSITE_URL . "; " . EMAIL_ADDRESS . ")\r\n" . 
+								'Accept: application/geo+json;version=1\r\n',
 					'timeout' => 5		// seconds
 					));
 	$context = stream_context_create( $opts );

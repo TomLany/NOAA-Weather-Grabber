@@ -38,7 +38,7 @@ define( 'EMAIL_ADDRESS', '' );
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
 // The version of this script.
-define( 'SCRIPT_VERSION', '4.0.0' );
+define( 'SCRIPT_VERSION', '4.0.1' );
 
 // End of configuration -- you're done!
 // See readme.md for more information about including this in your script.

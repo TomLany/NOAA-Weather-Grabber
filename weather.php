@@ -1,7 +1,7 @@
 <?php
 /**
  * NOAA Weather Grabber
- * version 4.0.1
+ * version 4.0.2
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website. Uses NOAA's new API.
 
@@ -38,7 +38,7 @@ define( 'EMAIL_ADDRESS', '' );
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
 // The version of this script.
-define( 'SCRIPT_VERSION', '4.0.1' );
+define( 'SCRIPT_VERSION', '4.0.2' );
 
 // End of configuration -- you're done!
 // See readme.md for more information about including this in your script.
@@ -150,12 +150,18 @@ function noaa_weather_grabber_write_to_file( $weather, $cachedata_file ) {
  * Returns an array of weather data and saves the data
  * to a cache file for later use.
  **/
-function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache ) {
+function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache, $data_problems ) {
 
 	// Define variables
 	$weather_url = noaa_weather_grabber_weather_url( $stationId );
 	$cachedata_file = noaa_weather_grabber_cache_file( $stationId );
 	$continue = "yes";
+
+	// Don't get weather data if the cache is on, the currently saved file indicates there was an error getting data and the file was saved less than 15 minutes ago.
+	if (( $data_problems == "yes" ) && ( file_exists( $cachedata_file )) && ( date( 'YmdHis', filemtime( $cachedata_file )) > date( 'YmdHis', strtotime( 'Now - 900 seconds' )))) {
+		$continue = "no";
+		$use_cache = "no";
+	}
 
 	// Get the feed
 	if ( $continue == "yes" ) {
@@ -168,6 +174,11 @@ function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache ) {
 	// Sanatize the weather information and add it to a variable
 	if ( $continue == "yes" ) {
 		$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId );
+	}
+
+	// If weather data is more than 1 hour old, produce an error
+	if ( date( 'YmdHis', strtotime( $weather->feedUpdatedAt )) < date( 'YmdHis', strtotime( 'Now - 3600 seconds' ))) {
+		$continue = "no";
 	}
 
 	// If there was an error, produce error message
@@ -208,11 +219,11 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 	if (( $use_cache == "no" ) || ( $use_cache == "update" )) {$continue = "cacheOff";}
 	if ( $stationId == NULL ) {$continue = "stationIDError";}
 	if ( $continue == "yes" ) {
-		if (( file_exists( $cachedata_file ) ) && ( date('YmdHis', filemtime( $cachedata_file )) > date( 'YmdHis', strtotime( 'Now -'.WEATHER_CACHE_DURATION.' seconds' )))) {}
+		if (( file_exists( $cachedata_file )) && ( date( 'YmdHis', filemtime( $cachedata_file )) > date( 'YmdHis', strtotime( 'Now -'.WEATHER_CACHE_DURATION.' seconds' )))) {}
 		else {$continue = "outdated";}
 	}
 
-	// Provide the cached data or get new data
+	// Provide the cached data or get new data if data problems
 	if ( $continue == "yes" ) {
 		$raw_weather = file_get_contents( $cachedata_file ) or die( 'Cache file open failed.' );
 		$raw_weather = json_decode( $raw_weather );
@@ -239,7 +250,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 			return( $weather );
 		}
 		else {
-			return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache );
+			return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache, "yes" );
 		}
 	}
 	elseif ( $continue == "stationIDError" ) {
@@ -248,7 +259,7 @@ function noaa_weather_grabber( $stationId = NULL, $use_cache = "yes" ) {
 		return( $weather );
 	}
 	else {
-		return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache );
+		return noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache, "no" );
 	}
 
 }

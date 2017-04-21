@@ -1,5 +1,5 @@
 # NOAA Weather Grabber
-version 4.0.1
+version 4.0.2
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from the  National Oceanic and Atmospheric Administration (NOAA)'s National Weather Service (NWS) and makes the data available for use in your PHP script/website.
 
@@ -93,6 +93,10 @@ An example of how to display this data is included in `sample.php`.
 Once this script is working with the file you want to include weather data in, make sure the cache is working. Find the cache file on your server and ensure that it is not updated every time you update the page the weather is included on, but only as often as the cache is run. It is important that the cache is running properly to ensure good performance.
 
 ## Changelog
+
+### 4.0.2
+* Don't get weather data if the cache is on, the currently saved file indicates there was an error getting data and the file was saved less than 15 minutes ago.
+* Don't get weather data when the data being provided is over 1 hour old.
 
 ### 4.0.1
 * A small update to revise the way the data is gathered from NOAA (this is now required for the script to function).

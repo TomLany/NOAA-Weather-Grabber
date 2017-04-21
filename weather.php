@@ -176,8 +176,8 @@ function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache, $data_
 		$weather = noaa_weather_grabber_get_standard_forecast( $raw_weather, $stationId );
 	}
 
-	// If weather data is more than 1 hour old, produce an error
-	if ( date( 'YmdHis', strtotime( $weather->feedUpdatedAt )) < date( 'YmdHis', strtotime( 'Now - 3600 seconds' ))) {
+	// If weather data is more than 1.5 hours old, produce an error
+	if ( date( 'YmdHis', strtotime( $weather->feedUpdatedAt )) < date( 'YmdHis', strtotime( 'Now - 5400 seconds' ))) {
 		$continue = "no";
 	}
 

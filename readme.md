@@ -96,7 +96,7 @@ Once this script is working with the file you want to include weather data in, m
 
 ### 4.0.2
 * Don't get weather data if the cache is on, the currently saved file indicates there was an error getting data and the file was saved less than 15 minutes ago.
-* Don't get weather data when the data being provided is over 1 hour old.
+* Don't get weather data when the data being provided is over 1.5 hours old.
 
 ### 4.0.1
 * A small update to revise the way the data is gathered from NOAA (this is now required for the script to function).

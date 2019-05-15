@@ -1,7 +1,7 @@
 <?php
 /**
  * NOAA Weather Grabber
- * version 4.0.2
+ * version 4.0.3
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website. Uses NOAA's new API.
 
@@ -38,7 +38,7 @@ define( 'EMAIL_ADDRESS', '' );
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
 // The version of this script.
-define( 'SCRIPT_VERSION', '4.0.2' );
+define( 'SCRIPT_VERSION', '4.0.3' );
 
 // End of configuration -- you're done!
 // See readme.md for more information about including this in your script.
@@ -54,7 +54,7 @@ date_default_timezone_set( 'UTC' );
 
 // Defines the URL that the weather will be grabbed from
 function noaa_weather_grabber_weather_url( $stationId ) {
-	$weather_url = 'https://api.weather.gov/stations/' . $stationId . '/observations/current';
+	$weather_url = 'https://api.weather.gov/stations/' . $stationId . '/observations/latest?require_qc=true';
 	return $weather_url;
 }
 
@@ -177,8 +177,10 @@ function noaa_weather_grabber_make_new_cachedata( $stationId, $use_cache, $data_
 	}
 
 	// If weather data is more than 1.5 hours old, produce an error
-	if ( date( 'YmdHis', strtotime( $weather->feedUpdatedAt )) < date( 'YmdHis', strtotime( 'Now - 5400 seconds' ))) {
-		$continue = "no";
+	if ( $continue == "yes" ) {
+		if ( date( 'YmdHis', strtotime( $weather->feedUpdatedAt )) < date( 'YmdHis', strtotime( 'Now - 5400 seconds' ))) {
+			$continue = "no";
+		}
 	}
 
 	// If there was an error, produce error message

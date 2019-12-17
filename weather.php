@@ -1,7 +1,7 @@
 <?php
 /**
  * NOAA Weather Grabber
- * version 4.0.3
+ * version 4.0.4
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from NOAA and makes the data available for use in your PHP script/website. Uses NOAA's new API.
 
@@ -38,7 +38,7 @@ define( 'EMAIL_ADDRESS', '' );
 define( 'WEATHER_CACHE_DURATION', 3600 );
 
 // The version of this script.
-define( 'SCRIPT_VERSION', '4.0.3' );
+define( 'SCRIPT_VERSION', '4.0.4' );
 
 // End of configuration -- you're done!
 // See readme.md for more information about including this in your script.

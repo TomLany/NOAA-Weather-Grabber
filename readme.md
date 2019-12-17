@@ -1,5 +1,5 @@
 # NOAA Weather Grabber
-version 4.0.3
+version 4.0.4
 
 This lightweight PHP script gets the current weather condition, temperature, and the name of a corresponding condition image from the  National Oceanic and Atmospheric Administration (NOAA)'s National Weather Service (NWS) and makes the data available for use in your PHP script/website.
 
@@ -50,7 +50,7 @@ This is the version of the script that you are using. Leave this value as it is 
 
 ## Include the Weather on Your Website
 
-Once you have filled in the configuration information, you are about ready to pull weather data! A full example of these steps (include the file, call the function, and get the data) is also included in `sample.php`.
+Once you have filled in the configuration information, you are about ready to pull weather data! A full example of these steps (include the file, call the function, and get the data - great for testing) is included in `sample.php`. An example that pulls the most commonly accessed data with some basic HTML markup (that can be copied into a website - great as a working starting place) is included in `example.php`.
 
 ### Include the File
 When you're ready to use the plugin, include it in the script you would like to present weather information in. Specify the path to the `weather.php` file on your server.
@@ -85,7 +85,7 @@ The weather data is returned from the function as an array. Use the data most re
 * `feedUpdatedAt` - This indicates the time NOAA's feed says the weather information was updated, in [ISO8601 format](http://www.php.net/manual/en/class.datetime.php). The UTC timezone is used.
 * `feedCachedAt` - This indicates the time the weather information was cached on your server, in [ISO8601 format](http://www.php.net/manual/en/class.datetime.php). The UTC timezone is used.
 
-An example of how to display this data is included in `sample.php`.
+A full example of how to display this data is included in `example.php`.
 
 ## Additional Notes
 
@@ -93,6 +93,9 @@ An example of how to display this data is included in `sample.php`.
 Once this script is working with the file you want to include weather data in, make sure the cache is working. Find the cache file on your server and ensure that it is not updated every time you update the page the weather is included on, but only as often as the cache is run. It is important that the cache is running properly to ensure good performance.
 
 ## Changelog
+
+### 4.0.4
+* Added `example.php` as an example of how to use this tool (with code that can be copied into a webpage).
 
 ### 4.0.3
 * Minor update to use `/stations/{stationId}/observations/latest` API endpoint, as previous endpoint was deprecated.
